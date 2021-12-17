@@ -1,0 +1,40 @@
+{
+  "name": "delos",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Delos an Effect Network UI, specifically thought for image labeling tasks 💥",
+  "keywords": [],
+  "dependencies": {
+    "sails": "^1.2.4",
+    "grunt": "1.0.4",
+    "sails-hook-grunt": "^4.0.0",
+    "sails-hook-orm": "^2.1.1",
+    "sails-hook-sockets": "^2.0.0",
+    "@sailshq/connect-redis": "^3.2.1",
+    "@sailshq/socket.io-redis": "^5.2.0",
+    "@sailshq/lodash": "^3.10.3"
+  },
+  "devDependencies": {
+    "eslint": "5.16.0",
+    "nodemon": "^1.19.2"
+  },
+  "scripts": {
+    "start": "nodemon -w api -w config -w views",
+    "test": "npm run lint && npm run custom-tests && echo 'Done.'",
+    "lint": "./node_modules/eslint/bin/eslint.js . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
+    "custom-tests": "echo \"(No other custom tests yet.)\" && echo"
+  },
+  "nodemonConfig": {
+    "ext": "js,mjs,json,ejs"
+  },
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git://gitlab.com/juancgarcia/delos.git"
+  },
+  "author": "administrador",
+  "license": "",
+  "engines": {
+    "node": "^12.22"
+  }
+}
