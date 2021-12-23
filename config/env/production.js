@@ -72,6 +72,10 @@ module.exports = {
       ****************************************************************************/
       // ssl: true,
 
+      adapter: require('sails-mongo'),
+      url: 'mongodb://delos:delos09@cluster0-shard-00-00.c5ppk.mongodb.net:27017,cluster0-shard-00-01.c5ppk.mongodb.net:27017,cluster0-shard-00-02.c5ppk.mongodb.net:27017/delos?ssl=true&replicaSet=atlas-nw0uiy-shard-0&authSource=admin&retryWrites=true&w=majority',
+      ssl: true
+
     },
 
   },
@@ -250,10 +254,11 @@ module.exports = {
     * > Be sure to use the right protocol!  ("http://" vs. "https://")         *
     *                                                                          *
     ***************************************************************************/
-    // onlyAllowOrigins: [
-    //   'https://example.com',
-    //   'https://staging.example.com',
-    // ],
+    onlyAllowOrigins: [
+      'https://heroku.com',
+      'http://localhost:1337',
+      // 'http://localhost:80'
+    ],
 
 
     /***************************************************************************
@@ -340,7 +345,7 @@ module.exports = {
   * this, just try deploying without setting it and see if it works.)       *
   *                                                                         *
   ***************************************************************************/
-  // port: 80,
+  port: 80,
 
 
 

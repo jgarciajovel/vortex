@@ -19,4 +19,12 @@ module.exports.policies = {
 
   // '*': true,
 
+  'auth/*': true,
+
+  User: {
+    create: true, // We don't need authorization here, allowing public access
+  },
+
+  '*': ['isAuthorized'], // Everything resctricted here
+
 };

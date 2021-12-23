@@ -21,6 +21,25 @@ module.exports.routes = {
 
   '/': { view: 'pages/homepage' },
 
+  'POST /auth': { controller: 'Auth', action: 'index' },
+
+  'GET /campaign/:id': { controller: 'Campaign', action: 'getCampaigns' },
+
+  'GET /campaign/:id/last': { controller: 'Campaign', action: 'getMyLastCampaign' },
+
+  'DELETE /campaign': { controller: 'Campaign', action: 'delete' },
+
+  'POST /campaign': { controller: 'Campaign', action: 'create' },
+
+  'GET /batch/:id/:id_campaign': { controller: 'Campaign', action: 'getBatches' },
+
+  'GET /batch/:id/batch/:id_batch': { controller: 'Campaign', action: 'getBatchResults' },
+
+  'POST /batch': { controller: 'Campaign', action: 'createBatch' },
+
+  'POST /v1/batch': { controller: 'Campaign', action: 'createBatchAPI' },
+
+  'POST /upload-image': { controller: 'Campaign', action: 'uploadFile' },
 
   /***************************************************************************
   *                                                                          *

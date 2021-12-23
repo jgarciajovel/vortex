@@ -5,21 +5,26 @@
   "description": "Delos an Effect Network UI, specifically thought for image labeling tasks 💥",
   "keywords": [],
   "dependencies": {
-    "sails": "^1.2.4",
+    "@effectai/effect-js": "^0.1.10",
+    "@sailshq/connect-redis": "^3.2.1",
+    "@sailshq/lodash": "^3.10.3",
+    "@sailshq/socket.io-redis": "^5.2.0",
+    "bcrypt": "^5.0.1",
+    "cloudinary": "^1.27.1",
     "grunt": "1.0.4",
+    "jsonwebtoken": "^8.5.1",
+    "sails": "^1.2.4",
     "sails-hook-grunt": "^4.0.0",
     "sails-hook-orm": "^2.1.1",
     "sails-hook-sockets": "^2.0.0",
-    "@sailshq/connect-redis": "^3.2.1",
-    "@sailshq/socket.io-redis": "^5.2.0",
-    "@sailshq/lodash": "^3.10.3"
+    "sails-mongo": "^2.0.0"
   },
   "devDependencies": {
     "eslint": "5.16.0",
     "nodemon": "^1.19.2"
   },
   "scripts": {
-    "start": "nodemon -w api -w config -w views",
+    "start": "nodemon -w api -w config",
     "test": "npm run lint && npm run custom-tests && echo 'Done.'",
     "lint": "./node_modules/eslint/bin/eslint.js . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
     "custom-tests": "echo \"(No other custom tests yet.)\" && echo"
