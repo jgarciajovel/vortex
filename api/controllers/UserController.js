@@ -105,5 +105,102 @@ module.exports = {
             }
         }
     },
+
+    getUser: function(req, res) {
+        let id = req.param('id');
+
+        if (id) {
+            start();
+        } else {
+            return res.status(500).json({
+                status: 'error',
+                message: 'Required parameters are not present (id)'
+            });
+        }
+
+        async function start() {
+            try {
+                // Get User Effect Account
+                var user = await User.findOne({
+                    id: id
+                });
+
+                if (user) {
+                    const private_key = user.effect_account.privateKey;
+
+                    const client = new EffectClient('jungle');
+                        
+                    // Instantiating bsc account.
+                    const account = createAccount(private_key);
+            
+                    const web3 = createWallet(account);
+            
+                    const effectAccount = await client.connectAccount(web3);
+
+                    return res.status(200).json({
+                        status: 'success',
+                        account: effectAccount
+                    });
+                } else {
+                    return res.status(200).json({
+                        status: 'error',
+                        message: `Couldn't get any user with ID ${id}`
+                    });
+                }
+            } catch (error) {
+                return res.serverError(error);
+            }
+        }
+
+    },
+
+    transfer: function(req, res) {
+        let id = req.param('id');
+
+        if (id) {
+            start();
+        } else {
+            return res.status(500).json({
+                status: 'error',
+                message: 'Required parameters are not present (id)'
+            });
+        }
+
+        async function start() {
+            try {
+                // Get User Effect Account
+                var user = await User.findOne({
+                    id: id
+                });
+
+                var client = await sails.helpers.connect.with({
+                    private_key: user.effect_account.privateKey,
+                }).tolerate('issues', (error)=>{
+                    sails.log.warn(error);
+                });
+
+                // var from_account = '031e78424c879d2428bc0dbef2949b81bf71c1ff';
+                // var to_account = 117;
+
+                var from_account = sails.config.custom.account_name;
+                var to_account = user.effect_account.vAccountRows[0].id;
+
+                console.log(client.account);
+
+                const transfer = await client.account.vtransfer('117', 139, '1.0000');
+                // const transfer = await client.account.getVAccountById(139);
+
+                return res.status(200).json({
+                    status: 'success',
+                    transfer,
+                    from_account,
+                    to_account
+                });
+            } catch (error) {
+                return res.serverError(error);
+            }
+        }
+
+    },
 };
 

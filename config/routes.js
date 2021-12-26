@@ -23,6 +23,8 @@ module.exports.routes = {
 
   'POST /auth': { controller: 'Auth', action: 'index' },
 
+  'GET /user/:id': { controller: 'User', action: 'getUser' },
+
   'GET /campaign/:id': { controller: 'Campaign', action: 'getCampaigns' },
 
   'GET /campaign/:id/last': { controller: 'Campaign', action: 'getMyLastCampaign' },
@@ -40,6 +42,8 @@ module.exports.routes = {
   'POST /v1/batch': { controller: 'Campaign', action: 'createBatchAPI' },
 
   'POST /upload-image': { controller: 'Campaign', action: 'uploadFile' },
+
+  'POST /transfer-funds': { controller: 'User', action: 'transfer' },
 
   /***************************************************************************
   *                                                                          *

@@ -19,6 +19,8 @@ module.exports.custom = {
   // stripeSecret: 'sk_test_Zzd814nldl91104qor5911gjald',
   // …
 
-  private_key: 'd2a2c812325ec34e8bdbdb8792ee1efc00cb58be9b57a1b8f8e4c20c139c1d54'
+  private_key: '0xd2a2c812325ec34e8bdbdb8792ee1efc00cb58be9b57a1b8f8e4c20c139c1d54',
+  account_name: '4a7191a8b997c6d786a21562732ca59f8c1d3c71',
+  id_account: 117,
 
 };

@@ -230,7 +230,7 @@ module.exports = {
                     description: description,
                     instructions: instruction,
                     template: template,
-                    image: 'https://res.cloudinary.com/gettechnologies/image/upload/v1640239094/delos/delos_image_h1m02i.png',
+                    image: 'https://res.cloudinary.com/gettechnologies/image/upload/v1640485213/delos/image_labeling_task_yy94ao.png',
                     category: 'Image Labeling',
                     example_task: {'image_url': image},
                     version: 1,
