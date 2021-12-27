@@ -195,8 +195,8 @@ module.exports = {
     
                 <div class="row">
                   <div class="col-sm-6" style="padding-top: 15px;">
-                    <input class="form-check-input" type="checkbox" value="true" name="unrecognizable" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
+                    <input class="form-check-input" type="checkbox" value="true" name="unrecognizable" id="unrecognizable">
+                    <label class="form-check-label" for="unrecognizable">
                       Unrecognizable Image
                     </label>
                   </div>

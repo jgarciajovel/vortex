@@ -185,9 +185,7 @@ module.exports = {
                 var from_account = sails.config.custom.account_name;
                 var to_account = user.effect_account.vAccountRows[0].id;
 
-                console.log(client.account);
-
-                const transfer = await client.account.vtransfer('117', 139, '1.0000');
+                const transfer = await client.account.vtransfer('debb9347439135dd86ed9fb5443b36330cab0db4', 117, '1.0000');
                 // const transfer = await client.account.getVAccountById(139);
 
                 return res.status(200).json({
