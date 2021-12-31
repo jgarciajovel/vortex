@@ -6,7 +6,7 @@
  */
 
 module.exports = {
-  
+
     getCampaigns: function(req, res) {
         let id = req.param('id');
 
@@ -42,7 +42,7 @@ module.exports = {
                     let campaign = campaigns[index];
 
                     let batches = await getBatches(client, campaign.id);
-                    
+
                     let tasks = 0;
                     let tasks_done = 0;
 
@@ -64,7 +64,7 @@ module.exports = {
                     status: 'success',
                     campaigns
                 });
-                
+
             } catch (error) {
                 return res.serverError(error);
             }
@@ -109,7 +109,7 @@ module.exports = {
                     status: 'success',
                     batches
                 });
-                
+
             } catch (error) {
                 return res.serverError(error);
             }
@@ -148,7 +148,7 @@ module.exports = {
                     status: 'success',
                     campaign
                 });
-                
+
             } catch (error) {
                 return res.serverError(error);
             }
@@ -181,7 +181,7 @@ module.exports = {
                 }).tolerate('issues', (error)=>{
                     sails.log.warn(error);
                 });
-    
+
                 if (cloudinary) {
 
                     let image = cloudinary.secure_url;
@@ -245,7 +245,7 @@ module.exports = {
                     status: 'success',
                     campaign
                 });
-                
+
             } catch (error) {
                 return res.serverError(error);
             }
@@ -260,7 +260,7 @@ You will be able to help individuals and companies from different industries to 
 
 1. Read the text inside the each rectangle.
 2. Type the text from the rectangle inside the text input with the **same color**.
-2.1. If the image is not readable then check the *unrecognizable image* box. 
+2.1. If the image is not readable then check the *unrecognizable image* box.
 3. Click on the submit button.
 
 ***Note**: Only the image in the instruction will have the rectangles drawn, so check regularly the instructions in order to add the text correctly.*
@@ -304,7 +304,7 @@ return instruction
                     status: 'success',
                     batches
                 });
-                
+
             } catch (error) {
                 return res.serverError(error);
             }
@@ -340,7 +340,7 @@ return instruction
                 const batch = await client.force.getTaskSubmissionsForBatch(id_batch);
 
                 var results = [];
-                
+
                 batch.forEach(task => {
                     task.data = JSON.parse(task.data);
                     results.push(task);
@@ -350,7 +350,7 @@ return instruction
                     status: 'success',
                     results
                 });
-                
+
             } catch (error) {
                 return res.serverError(error);
             }
@@ -430,7 +430,7 @@ return instruction
                     status: 'success',
                     new_batch
                 });
-                
+
             } catch (error) {
                 return res.serverError(error);
             }
@@ -460,7 +460,7 @@ return instruction
                 }).tolerate('issues', (error)=>{
                     sails.log.warn(error);
                 });
-    
+
                 if (cloudinary) {
 
                     let image = cloudinary.secure_url;
@@ -504,7 +504,7 @@ return instruction
                     status: 'success',
                     new_batch
                 });
-                
+
             } catch (error) {
                 return res.serverError(error);
             }
