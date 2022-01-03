@@ -8,5 +8,5 @@
 + [API - Documentation](https://documenter.getpostman.com/view/1980477/UVXbseHv)
 ### Contact
 + [delos - Twitter](https://twitter.com/delos_on)
-+ [Email](jc.garciajovel@gmail.com)
++ [Email - jc.garciajovel@gmail.com](mailto:jc.garciajovel@gmail.com)
 
