@@ -240,10 +240,25 @@ module.exports = {
                 const efx_quantity = '1'
 
                 const campaign = await client.force.makeCampaign(campaignToIpfs, efx_quantity);
+                const last_campaign = await client.force.getMyLastCampaign();
+                const campaign_record = await Campaign.create({
+                    title: title,
+                    description: description,
+                    instructions: instruction,
+                    template: template,
+                    image: 'https://res.cloudinary.com/gettechnologies/image/upload/v1640485213/delos/image_labeling_task_yy94ao.png',
+                    category: 'Image Labeling',
+                    example_task: image,
+                    version: 1,
+                    reward: 1,
+                    data: data,
+                    campaign: last_campaign.id,
+                }).fetch();
 
                 return res.status(200).json({
                     status: 'success',
-                    campaign
+                    campaign: campaign,
+                    record: campaign_record
                 });
 
             } catch (error) {

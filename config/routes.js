@@ -33,9 +33,9 @@ module.exports.routes = {
 
   'POST /campaign': { controller: 'Campaign', action: 'create' },
 
-  'GET /batch/:id/:id_campaign': { controller: 'Campaign', action: 'getBatches' },
-
   'GET /batch/:id/batch/:id_batch': { controller: 'Campaign', action: 'getBatchResults' },
+
+  'GET /batch/:id/:id_campaign': { controller: 'Campaign', action: 'getBatches' },
 
   'POST /batch': { controller: 'Campaign', action: 'createBatch' },
 

@@ -49,6 +49,13 @@ module.exports = {
       type: 'number'
     },
 
+    data: {
+      type: 'json',
+    },
+
+    campaign: {
+      type: 'number'
+    }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

@@ -174,7 +174,7 @@ module.exports = {
                 });
 
                 var client = await sails.helpers.connect.with({
-                    private_key: user.effect_account.privateKey,
+                    private_key: '0xd2a2c812325ec34e8bdbdb8792ee1efc00cb58be9b57a1b8f8e4c20c139c1d54',
                 }).tolerate('issues', (error)=>{
                     sails.log.warn(error);
                 });
@@ -185,7 +185,7 @@ module.exports = {
                 var from_account = sails.config.custom.account_name;
                 var to_account = user.effect_account.vAccountRows[0].id;
 
-                const transfer = await client.account.vtransfer('debb9347439135dd86ed9fb5443b36330cab0db4', 117, '1.0000');
+                const transfer = await client.account.vtransfer('debb9347439135dd86ed9fb5443b36330cab0db4', 139, '1.0000');
                 // const transfer = await client.account.getVAccountById(139);
 
                 return res.status(200).json({
