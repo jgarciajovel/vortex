@@ -35,7 +35,7 @@ module.exports = {
 
                 console.log(':: Loading...');
 
-                const all_campaigns = await client.force.getCampaigns(null, 150, true);
+                const all_campaigns = await client.force.getCampaigns(null, 150);
                 var campaigns = [];
 
                 console.log(':: Got it');
