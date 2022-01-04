@@ -13,6 +13,7 @@ module.exports = {
         let lastname = req.param('lastname');
         let email = req.param('email');
         let password = req.param('password');
+        let private_key = req.param('private_key');
 
         if (name && email && password) {
             start();
@@ -35,7 +36,7 @@ module.exports = {
                         message: 'User already exists'
                     });
                 } else {
-                    createUser();
+                    wallet();
                 }
 
             } catch (error) {
@@ -43,55 +44,41 @@ module.exports = {
             }
         }
 
-        async function createUser() {
-            try {
-                var user = await User.create({
-                   name: name,
-                   lastname: lastname,
-                   email: email,
-                   password: password 
-                }).fetch();
-
-                wallet(user);
-
-                // return res.status(200).json({
-                //     status: 'success',
-                //     user: user
-                // });
-
-            } catch (error) {
-                return res.serverError(error);
-            }
-        }
-
-        async function wallet(user) {
+        async function wallet() {
             try {
                 sails.log.info(':: 📣  Creating Wallet');
                 const client = new EffectClient('jungle');
             
                 // Instantiating bsc account.
                 // const account = createAccount('d2a2c812325ec34e8bdbdb8792ee1efc00cb58be9b57a1b8f8e4c20c139c1d54');
-                const account = createAccount();
+                
+                let account = createAccount('');
+
+                if (private_key) {
+                    account = createAccount(private_key);
+                }
 
                 if (account) {
-                    // process.argv[2] = 'd2a2c812325ec34e8bdbdb8792ee1efc00cb58be9b57a1b8f8e4c20c139c1d54';
-            
                     // Generate web3 instance from account with private key.
                     // Could also be the web3 object with a MetaMask connection etc.
                     const web3 = createWallet(account);
+
+                    console.log(':: web3 created');
                 
                     // Connect web3 account to SDK
                     const effectAccount = await client.connectAccount(web3);
 
-                    var user_update = await User.update({
-                        id: user.id
-                    }, {
+                    var user = await User.create({
+                        name: name,
+                        lastname: lastname,
+                        email: email,
+                        password: password,
                         effect_account: effectAccount
                     }).fetch();
-                
+
                     return res.status(200).json({
                         status: 'success',
-                        user_update
+                        user
                     });
                 } else {
                     return res.status(200).json({
@@ -179,20 +166,14 @@ module.exports = {
                     sails.log.warn(error);
                 });
 
-                // var from_account = '031e78424c879d2428bc0dbef2949b81bf71c1ff';
-                // var to_account = 117;
-
-                var from_account = sails.config.custom.account_name;
+                var to_account_name = user.effect_account.accountName;
                 var to_account = user.effect_account.vAccountRows[0].id;
 
-                const transfer = await client.account.vtransfer('debb9347439135dd86ed9fb5443b36330cab0db4', 139, '1.0000');
-                // const transfer = await client.account.getVAccountById(139);
+                const transfer = await client.account.vtransfer(to_account_name, to_account, '5.0000');
 
                 return res.status(200).json({
                     status: 'success',
                     transfer,
-                    from_account,
-                    to_account
                 });
             } catch (error) {
                 return res.serverError(error);
