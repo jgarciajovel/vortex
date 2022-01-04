@@ -5,7 +5,7 @@
   "description": "Delos an Effect Network UI, specifically thought for image labeling tasks 💥",
   "keywords": [],
   "dependencies": {
-    "@effectai/effect-js": "^0.1.10",
+    "@effectai/effect-js": "^0.1.17",
     "@sailshq/connect-redis": "^3.2.1",
     "@sailshq/lodash": "^3.10.3",
     "@sailshq/socket.io-redis": "^5.2.0",

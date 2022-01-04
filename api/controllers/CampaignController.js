@@ -33,10 +33,16 @@ module.exports = {
                     sails.log.warn(error);
                 });
 
-                const all_campaigns = await client.force.getCampaigns(null, 150);
+                console.log(':: Loading...');
+
+                const all_campaigns = await client.force.getCampaigns(null, 150, true);
                 var campaigns = [];
 
+                console.log(':: Got it');
+
                 campaigns = all_campaigns.rows.filter(campaign => campaign.owner[1] === user.effect_account.accountName);
+
+                console.log(campaigns.length);
 
                 for (let index = 0; index < campaigns.length; index++) {
                     let campaign = campaigns[index];
