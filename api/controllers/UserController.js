@@ -174,6 +174,9 @@ module.exports = {
                 var to_account_name = user.effect_account.accountName;
                 var to_account = user.effect_account.vAccountRows[0].id;
 
+                console.log(to_account_name);
+                console.log(to_account);
+
                 const transfer = await client.account.vtransfer(to_account_name, to_account, '5.0000');
 
                 return res.status(200).json({

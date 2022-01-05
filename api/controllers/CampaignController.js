@@ -79,7 +79,7 @@ module.exports = {
         }
 
         async function getBatches(id_campaign) {
-            const batches = Batch.find({
+            const batches = await Batch.find({
                 campaign_id: id_campaign
             });
 
@@ -348,15 +348,27 @@ return instruction
                     id: id
                 });
 
-                var client = await sails.helpers.connect.with({
-                    private_key: user.effect_account.privateKey,
-                }).tolerate('issues', (error)=>{
-                    sails.log.warn(error);
-                });
+                // var client = await sails.helpers.connect.with({
+                //     private_key: user.effect_account.privateKey,
+                // }).tolerate('issues', (error)=>{
+                //     sails.log.warn(error);
+                // });
 
                 console.log(':: Loading...');
                 
-                const batches = await client.force.getCampaignBatches(id_campaign);
+                // const batches = await client.force.getCampaignBatches(id_campaign);
+
+                const batches = await Batch.find({
+                    campaign_id: id_campaign
+                });
+
+                let tasks = 0;
+                let tasks_done = 0;
+
+                batches.forEach(batch => {
+                    tasks += batch.num_tasks;
+                    tasks_done += batch.tasks_done;
+                });
 
                 return res.status(200).json({
                     status: 'success',
