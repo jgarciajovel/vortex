@@ -294,12 +294,12 @@ module.exports = {
 
                 const efx_quantity = '1'
 
-                const campaign = await client.force.makeCampaign(campaignToIpfs, efx_quantity);
+                const campaign = client.force.makeCampaign(campaignToIpfs, efx_quantity);
                 // const last_campaign = await client.force.getMyLastCampaign();
 
                 return res.status(200).json({
                     status: 'success',
-                    campaign: campaign,
+                    campaign: {},
                 });
 
             } catch (error) {
@@ -615,11 +615,11 @@ return instruction
                     ]
                 }
 
-                const new_batch = await client.force.createBatch(id_campaign, content, 1);
+                const new_batch = client.force.createBatch(id_campaign, content, 1);
 
                 return res.status(200).json({
                     status: 'success',
-                    new_batch
+                    new_batch: {}
                 });
 
             } catch (error) {
