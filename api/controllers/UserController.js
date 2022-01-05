@@ -112,6 +112,11 @@ module.exports = {
                     id: id
                 });
 
+                // await sails.helpers.cacheWrite('user', 60, JSON.stringify(user));
+
+                // let cache_user = await sails.helpers.cacheRead('user');
+                // console.log(':: User cache', cache_user);
+
                 if (user) {
                     const private_key = user.effect_account.privateKey;
 

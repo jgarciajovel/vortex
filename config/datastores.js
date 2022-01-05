@@ -56,5 +56,15 @@ module.exports.datastores = {
     ssl: true
   },
 
+  // cache: {
+  //   adapter: 'sails-redis',
+  //   url: 'redis://localhost:6379',
+
+  //   // host: 'localhost',
+  //   // port: 6379,
+  //   // db: 0,
+  //   // prefix: 'sess:'
+  // },
+
 
 };

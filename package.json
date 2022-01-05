@@ -10,15 +10,16 @@
     "@sailshq/lodash": "^3.10.3",
     "@sailshq/socket.io-redis": "^5.2.0",
     "bcrypt": "^5.0.1",
-    "cron": "^1.8.2",
     "cloudinary": "^1.27.1",
+    "cron": "^1.8.2",
     "grunt": "1.0.4",
     "jsonwebtoken": "^8.5.1",
     "sails": "^1.2.4",
     "sails-hook-grunt": "^4.0.0",
     "sails-hook-orm": "^2.1.1",
     "sails-hook-sockets": "^2.0.0",
-    "sails-mongo": "^2.0.0"
+    "sails-mongo": "^2.0.0",
+    "sails-redis": "^1.0.0"
   },
   "devDependencies": {
     "eslint": "5.16.0",

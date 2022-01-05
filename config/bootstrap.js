@@ -29,7 +29,7 @@ module.exports.bootstrap = async function() {
   // ]);
   // ```
 
-  let batches = new CronJob('*/3 * * * *', function() {
+  let batches = new CronJob('*/2 * * * *', function() {
     sails.log.info(`:: 🪖  Get Batches`);
 
     sails.config.utils.batches(function(error, batches) {
@@ -41,7 +41,7 @@ module.exports.bootstrap = async function() {
 
   }, null, true, 'America/El_Salvador');
 
-  let campaigns = new CronJob('*/3 * * * *', function() {
+  let campaigns = new CronJob('*/2 * * * *', function() {
     sails.log.info(`:: 💥  Get Campaigns`);
 
     sails.config.utils.campaigns(function(error, campaigns) {
