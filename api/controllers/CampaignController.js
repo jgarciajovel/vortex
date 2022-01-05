@@ -328,7 +328,7 @@ You will be able to help individuals and companies from different industries to 
 
 ### Instructions
 
-1. Read the text inside the each rectangle.
+1. Read the text inside each rectangle.
 2. Type the text from the rectangle inside the text input with the **same color**.
 2.1. If the image is not readable then check the *unrecognizable image* box.
 3. Click on the submit button.
