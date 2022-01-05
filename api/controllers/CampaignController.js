@@ -48,15 +48,15 @@ module.exports = {
                     let campaign = campaigns[index];
 
                     let batches = [];
-                    // let batches = await getBatches(client, campaign.id);
+                    batches = await getBatches(client, campaign.id);
 
                     let tasks = 0;
                     let tasks_done = 0;
 
-                    // batches.forEach(batch => {
-                    //     tasks += batch.num_tasks;
-                    //     tasks_done += batch.tasks_done;
-                    // });
+                    batches.forEach(batch => {
+                        tasks += batch.num_tasks;
+                        tasks_done += batch.tasks_done;
+                    });
 
                     let progress = 100 - ((tasks - tasks_done) / tasks) * 100;
 
