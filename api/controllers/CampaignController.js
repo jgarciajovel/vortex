@@ -48,15 +48,15 @@ module.exports = {
                     let campaign = campaigns[index];
 
                     let batches = [];
-                    batches = await getBatches(client, campaign.id);
+                    // batches = await getBatches(client, campaign.id);
 
                     let tasks = 0;
                     let tasks_done = 0;
 
-                    batches.forEach(batch => {
-                        tasks += batch.num_tasks;
-                        tasks_done += batch.tasks_done;
-                    });
+                    // batches.forEach(batch => {
+                    //     tasks += batch.num_tasks;
+                    //     tasks_done += batch.tasks_done;
+                    // });
 
                     let progress = 100 - ((tasks - tasks_done) / tasks) * 100;
 
@@ -86,6 +86,45 @@ module.exports = {
 
     },
 
+    getCampaignDetail: function(req, res) {
+        let id = req.param('id');
+        let id_campaign = req.param('id_campaign');
+
+        if (id, id_campaign) {
+            start();
+        } else {
+            return res.status(500).json({
+                status: 'error',
+                message: 'Required parameters are not present (id, id_campaign)'
+            });
+        }
+
+        async function start() {
+            try {
+                // Get User Effect Account
+                var user = await User.findOne({
+                    id: id
+                });
+
+                var client = await sails.helpers.connect.with({
+                    private_key: user.effect_account.privateKey,
+                }).tolerate('issues', (error)=>{
+                    sails.log.warn(error);
+                });
+
+                const campaign = await client.force.getCampaign(id_campaign);
+
+                return res.status(200).json({
+                    status: 'success',
+                    campaign
+                });
+
+            } catch (error) {
+                return res.serverError(error);
+            }
+        }
+    },
+
     getMyLastCampaign: function(req, res) {
         let id = req.param('id');
 
@@ -111,11 +150,17 @@ module.exports = {
                     sails.log.warn(error);
                 });
 
-                const batches = await client.force.getMyLastCampaign();
+                const campaign = await client.force.getMyLastCampaign();
+
+                campaign.tasks = 0;
+                campaign.tasks_done = 0;
+                campaign.progress = 0;
+                campaign.batches = [];
+                campaign.info.reward = parseFloat(campaign.info.reward);
 
                 return res.status(200).json({
                     status: 'success',
-                    batches
+                    campaign
                 });
 
             } catch (error) {
@@ -322,6 +367,46 @@ return instruction
                 });
 
                 const batches = await client.force.getCampaignBatches(id_campaign);
+
+                return res.status(200).json({
+                    status: 'success',
+                    batches
+                });
+
+            } catch (error) {
+                return res.serverError(error);
+            }
+        }
+    },
+
+    deleteBatch: function(req, res) {
+        let id = req.param('id');
+        let id_campaign = parseInt(req.param('id_campaign'));
+        let id_batch = parseInt(req.param('id_batch'));
+
+        if (id) {
+            start();
+        } else {
+            return res.status(500).json({
+                status: 'error',
+                message: 'Required parameters are not present (id)'
+            });
+        }
+
+        async function start() {
+            try {
+                // Get User Effect Account
+                var user = await User.findOne({
+                    id: id
+                });
+
+                var client = await sails.helpers.connect.with({
+                    private_key: user.effect_account.privateKey,
+                }).tolerate('issues', (error)=>{
+                    sails.log.warn(error);
+                });
+
+                const batches = await client.force.deleteBatch(id_batch, id_campaign);
 
                 return res.status(200).json({
                     status: 'success',

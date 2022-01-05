@@ -27,6 +27,8 @@ module.exports.routes = {
 
   'GET /campaign/:id': { controller: 'Campaign', action: 'getCampaigns' },
 
+  'GET /campaign/:id/detail/:id_campaign': { controller: 'Campaign', action: 'getCampaignDetail' },
+
   'GET /campaign/:id/last': { controller: 'Campaign', action: 'getMyLastCampaign' },
 
   'DELETE /campaign': { controller: 'Campaign', action: 'delete' },
@@ -38,6 +40,8 @@ module.exports.routes = {
   'GET /batch/:id/:id_campaign': { controller: 'Campaign', action: 'getBatches' },
 
   'POST /batch': { controller: 'Campaign', action: 'createBatch' },
+
+  'DELETE /batch': { controller: 'Campaign', action: 'deleteBatch' },
 
   'POST /v1/batch': { controller: 'Campaign', action: 'createBatchAPI' },
 
