@@ -41,7 +41,7 @@ module.exports.bootstrap = async function() {
 
   }, null, true, 'America/El_Salvador');
 
-  let campaigns = new CronJob('*/1 * * * *', function() {
+  let campaigns = new CronJob('*/3 * * * *', function() {
     sails.log.info(`:: 💥  Get Campaigns`);
 
     sails.config.utils.campaigns(function(error, campaigns) {
