@@ -370,6 +370,13 @@ return instruction
                     tasks_done += batch.tasks_done;
                 });
 
+                batches.push({
+                    batch_id: 12345,
+                    tasks_done: 0,
+                    num_tasks: 1,
+                    campaign_id: id_campaign
+                });
+
                 return res.status(200).json({
                     status: 'success',
                     batches: batches,
