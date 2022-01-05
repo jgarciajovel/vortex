@@ -38,9 +38,9 @@ module.exports.utils = {
             } else {
                 let new_campaign = await Campaign.create(campaign);
             }
-
-            console.log(`:: 🥇  Campaigns Saved`);
         });
+
+        console.log(`:: 🥇  Campaigns Saved`);
 
         return cb(null, true);
     },
