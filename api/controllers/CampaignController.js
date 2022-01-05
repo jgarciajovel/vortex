@@ -295,7 +295,7 @@ module.exports = {
                 const efx_quantity = '1'
 
                 const campaign = await client.force.makeCampaign(campaignToIpfs, efx_quantity);
-                const last_campaign = await client.force.getMyLastCampaign();
+                // const last_campaign = await client.force.getMyLastCampaign();
 
                 return res.status(200).json({
                     status: 'success',
