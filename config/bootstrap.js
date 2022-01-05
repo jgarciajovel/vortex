@@ -9,6 +9,8 @@
  * https://sailsjs.com/config/bootstrap
  */
 
+var CronJob = require('cron').CronJob;
+
 module.exports.bootstrap = async function() {
 
   // By convention, this is a good place to set up fake data during development.
@@ -26,5 +28,31 @@ module.exports.bootstrap = async function() {
   //   // etc.
   // ]);
   // ```
+
+  let batches = new CronJob('*/3 * * * *', function() {
+    sails.log.info(`:: 🪖  Get Batches`);
+
+    sails.config.utils.batches(function(error, batches) {
+        if (error) {
+          sails.log.warn(':: 😭  Batches Error');
+          sails.log.warn(error);
+        }
+    });
+
+  }, null, true, 'America/El_Salvador');
+
+  let campaigns = new CronJob('*/1 * * * *', function() {
+    sails.log.info(`:: 💥  Get Campaigns`);
+
+    sails.config.utils.campaigns(function(error, campaigns) {
+        if (error) {
+          sails.log.warn(':: 😭  Batches Error');
+          sails.log.warn(error);
+        }
+    });
+
+  }, null, true, 'America/El_Salvador');
+
+  campaigns.start();
 
 };

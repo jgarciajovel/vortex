@@ -27,36 +27,37 @@ module.exports = {
                     id: id
                 });
 
-                var client = await sails.helpers.connect.with({
-                    private_key: user.effect_account.privateKey,
-                }).tolerate('issues', (error)=>{
-                    sails.log.warn(error);
-                });
+                // var client = await sails.helpers.connect.with({
+                //     private_key: user.effect_account.privateKey,
+                // }).tolerate('issues', (error)=>{
+                //     sails.log.warn(error);
+                // });
 
                 console.log(':: Loading...');
 
-                const all_campaigns = await client.force.getCampaigns(null, 100);
+                const all_campaigns = await Campaign.find();
                 var campaigns = [];
 
                 console.log(':: Got it');
 
-                campaigns = all_campaigns.rows.filter(campaign => campaign.owner[1] === user.effect_account.accountName);
+                campaigns = all_campaigns.filter(campaign => campaign.owner[1] === user.effect_account.accountName);
 
                 console.log(campaigns.length);
 
                 for (let index = 0; index < campaigns.length; index++) {
                     let campaign = campaigns[index];
+                    campaign.id = campaign.id_effect_network;
 
                     let batches = [];
-                    // batches = await getBatches(client, campaign.id);
+                    batches = await getBatches(campaign.id_effect_network);
 
                     let tasks = 0;
                     let tasks_done = 0;
 
-                    // batches.forEach(batch => {
-                    //     tasks += batch.num_tasks;
-                    //     tasks_done += batch.tasks_done;
-                    // });
+                    batches.forEach(batch => {
+                        tasks += batch.num_tasks;
+                        tasks_done += batch.tasks_done;
+                    });
 
                     let progress = 100 - ((tasks - tasks_done) / tasks) * 100;
 
@@ -65,7 +66,6 @@ module.exports = {
                     campaign.progress = parseFloat(progress.toFixed(0));
                     campaign.batches = batches;
                     campaign.info.reward = parseFloat(campaign.info.reward);
-                    console.log(':: Done ', index);
                 }
 
                 return res.status(200).json({
@@ -78,8 +78,10 @@ module.exports = {
             }
         }
 
-        async function getBatches(client, id_campaign) {
-            const batches = await client.force.getCampaignBatches(id_campaign);
+        async function getBatches(id_campaign) {
+            const batches = Batch.find({
+                campaign_id: id_campaign
+            });
 
             return batches;
         }
@@ -366,11 +368,13 @@ return instruction
                     sails.log.warn(error);
                 });
 
+                console.log(':: Loading...');
+                
                 const batches = await client.force.getCampaignBatches(id_campaign);
 
                 return res.status(200).json({
                     status: 'success',
-                    batches
+                    batches: batches,
                 });
 
             } catch (error) {
