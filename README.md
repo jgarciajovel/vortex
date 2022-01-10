@@ -10,3 +10,5 @@
 + [delos - Twitter](https://twitter.com/delos_on)
 + [Email - jc.garciajovel@gmail.com](mailto:jc.garciajovel@gmail.com)
 
+>> username: efx@delos.co
+>> password: delos09
