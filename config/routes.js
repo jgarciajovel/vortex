@@ -21,33 +21,7 @@ module.exports.routes = {
 
   '/': { view: 'pages/homepage' },
 
-  'POST /auth': { controller: 'Auth', action: 'index' },
-
-  'GET /user/:id': { controller: 'User', action: 'getUser' },
-
-  'GET /campaign/:id': { controller: 'Campaign', action: 'getCampaigns' },
-
-  'GET /campaign/:id/detail/:id_campaign': { controller: 'Campaign', action: 'getCampaignDetail' },
-
-  'GET /campaign/:id/last': { controller: 'Campaign', action: 'getMyLastCampaign' },
-
-  'DELETE /campaign': { controller: 'Campaign', action: 'delete' },
-
-  'POST /campaign': { controller: 'Campaign', action: 'create' },
-
-  'GET /batch/:id/batch/:id_batch': { controller: 'Campaign', action: 'getBatchResults' },
-
-  'GET /batch/:id/:id_campaign': { controller: 'Campaign', action: 'getBatches' },
-
-  'POST /batch': { controller: 'Campaign', action: 'createBatch' },
-
-  'DELETE /batch': { controller: 'Campaign', action: 'deleteBatch' },
-
-  'POST /v1/batch': { controller: 'Campaign', action: 'createBatchAPI' },
-
-  'POST /upload-image': { controller: 'Campaign', action: 'uploadFile' },
-
-  'POST /transfer-funds': { controller: 'User', action: 'transfer' },
+  // 'POST /auth': { controller: 'Auth', action: 'index' },
 
   /***************************************************************************
   *                                                                          *

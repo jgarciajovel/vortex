@@ -29,30 +29,4 @@ module.exports.bootstrap = async function() {
   // ]);
   // ```
 
-  let batches = new CronJob('*/2 * * * *', function() {
-    sails.log.info(`:: 🪖  Get Batches`);
-
-    sails.config.utils.batches(function(error, batches) {
-        if (error) {
-          sails.log.warn(':: 😭  Batches Error');
-          sails.log.warn(error);
-        }
-    });
-
-  }, null, true, 'America/El_Salvador');
-
-  let campaigns = new CronJob('*/2 * * * *', function() {
-    sails.log.info(`:: 💥  Get Campaigns`);
-
-    sails.config.utils.campaigns(function(error, campaigns) {
-        if (error) {
-          sails.log.warn(':: 😭  Batches Error');
-          sails.log.warn(error);
-        }
-    });
-
-  }, null, true, 'America/El_Salvador');
-
-  campaigns.start();
-
 };

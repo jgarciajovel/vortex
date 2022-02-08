@@ -2,10 +2,9 @@
   "name": "delos",
   "private": true,
   "version": "0.1.0",
-  "description": "Delos an Effect Network UI, specifically thought for image labeling tasks 💥",
+  "description": "Vortex it’s the first platform that allows you to create custom contests, promotions, give rewards in the form of a functional NFT minted on the XRP Ledger.",
   "keywords": [],
   "dependencies": {
-    "@effectai/effect-js": "^0.1.17",
     "@sailshq/connect-redis": "^3.2.1",
     "@sailshq/lodash": "^3.10.3",
     "@sailshq/socket.io-redis": "^5.2.0",
