@@ -19,8 +19,8 @@ module.exports.custom = {
   // stripeSecret: 'sk_test_Zzd814nldl91104qor5911gjald',
   // …
 
-  private_key: '0xd2a2c812325ec34e8bdbdb8792ee1efc00cb58be9b57a1b8f8e4c20c139c1d54',
-  account_name: '4a7191a8b997c6d786a21562732ca59f8c1d3c71',
-  id_account: 117,
+  xumm_api_key: '8a7dd211-991f-428a-bc69-0f72376d3240',
+  xumm_api_secret: '9746eef2-5f20-47d9-a9a8-dfab11188628',
 
+  xumm_api: 'https://xumm.app/api/v1/platform',
 };

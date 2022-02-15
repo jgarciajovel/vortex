@@ -29,4 +29,23 @@ module.exports.bootstrap = async function() {
   // ]);
   // ```
 
+  sails.io.on('connection', function (socket) {
+    socket.on('subscribe', function (data) {
+      sails.sockets.join(socket, data.room, function (err) {
+
+        if (!err) {
+          console.log('>> ' + socket.id + ' subscribed to room ' + data.room);
+        } else {
+          console.log('>> error subscribing socket');
+        }
+
+      });
+    });
+
+    socket.on('update', function (data) {
+      sails.sockets.broadcast(data.room, data.event, data.payload);
+    });
+
+  });
+
 };

@@ -5,7 +5,80 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
+const axios = require('axios').default;
+const xrpl = require("xrpl");
+const {XummSdk} = require('xumm-sdk');
+const Sdk = new XummSdk(sails.config.custom.xumm_api_key, sails.config.custom.xumm_api_secret);
+
 module.exports = {
+
+    index: function(req, res) {
+        start();
+
+        async function start() {
+            try {
+                // Define the network client
+                const client = new xrpl.Client("wss://s.altnet.rippletest.net/");
+                await client.connect();
+
+                // ... custom code goes here
+                // Get info from the ledger about the address we just funded
+                const response = await client.request({
+                    "command": "account_info",
+                    "account": "rUbkduh1MHWB7yNUVbVAkwMRpmcNgfBQBh",
+                    "ledger_index": "validated"
+                })
+                console.log(response)
+
+                // Disconnect when done (If you omit this, Node.js won't end the process)
+                client.disconnect();
+
+                return res.status(200).json({
+                    status: 'success',
+                    response
+                });
+            } catch (error) {
+                return res.status(400).json({
+                    status: 'error',
+                    error: error
+                });
+            }
+        }
+    },
+
+    auth: function(req, res) {
+        start();
+
+        async function start() {
+            try {
+                let data = { 
+                    txjson: {
+                        TransactionType: 'SignIn'
+                    }
+                };
+
+                let config = {
+                    method: 'post',
+                    url: `${sails.config.custom.xumm_api}/payload`,
+                    headers: { 
+                        'Content-Type': 'application/json', 
+                        'X-API-Key': `${sails.config.custom.xumm_api_key}`, 
+                        'X-API-Secret': `${sails.config.custom.xumm_api_secret}`
+                    },
+                    data: data
+                };
+
+                let response = await axios(config);
+
+                return res.status(200).json({
+                    status: 'success',
+                    data: response.data
+                });
+            } catch (error) {
+                return res.serverError(error);
+            }
+        }
+    },
 
     create: function(req, res) {
         let id = req.param('id');
@@ -123,6 +196,96 @@ You will be able to help individuals and companies from different industries to 
 return instruction
         }
 
+    },
+
+    webhook: function(req, res) {
+        start();
+
+        async function start() {
+            try {
+                let userToken = req.body.userToken;
+
+                let payload_uuidv4 = req.body.payloadResponse.payload_uuidv4;
+
+                const user = await Sdk.payload.get(payload_uuidv4);
+                const address = user.response.account;
+
+                console.log('address', address);
+
+                return res.status(200).json({
+                    status: 'success',
+                    body: req.body
+                });
+            } catch (error) {
+                return res.status(200).json({
+                    status: 'error',
+                    error
+                });
+            }
+        }
+    },
+
+    getUser: function(req, res) {
+        var payload = req.param('payload');
+
+        if (payload) {
+            start();
+        } else {
+            return res.status(401).json({
+                status: 'error',
+                message: 'Required parameters are not present (payload) or header'
+            });
+        }
+
+        async function start() {
+            try {
+                // payload = 'beb82d2c-1bb8-495a-b742-czd4e033426e5';
+                const user = await Sdk.payload.get(payload);
+                
+                if (user) {
+                    let account = user.response.account;
+
+                    // Define the network client
+                    const client = new xrpl.Client("wss://s.altnet.rippletest.net/");
+                    await client.connect();
+    
+                    // ... custom code goes here
+                    // Get info from the ledger about the address we just funded
+                    const response = await client.request({
+                        "command": "account_info",
+                        "account": account,
+                        "ledger_index": "validated"
+                    })
+                    // Disconnect when done (If you omit this, Node.js won't end the process)
+                    client.disconnect();
+
+                    return res.status(200).json({
+                        status: 'success',
+                        user: response
+                    });
+                } else {
+                    return res.status(401).json({
+                        status: 'error',
+                        user: 'expired'
+                    });
+                }
+            } catch (error) {
+                return res.serverError(error);
+            }
+        }
+    },
+
+    socket: function(req, res) {
+        start();
+
+        async function start() {
+
+            sails.sockets.broadcast('5963de684bb804b6e139cdec', 'address', 'xrpl_address');
+
+            return res.status(200).json({
+                status: 'success'
+            });
+        }
     },
 
 };

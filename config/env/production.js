@@ -73,7 +73,7 @@ module.exports = {
       // ssl: true,
 
       adapter: require('sails-mongo'),
-      url: 'mongodb://delos:delos09@cluster0-shard-00-00.c5ppk.mongodb.net:27017,cluster0-shard-00-01.c5ppk.mongodb.net:27017,cluster0-shard-00-02.c5ppk.mongodb.net:27017/delos?ssl=true&replicaSet=atlas-nw0uiy-shard-0&authSource=admin&retryWrites=true&w=majority',
+      url: 'mongodb+srv://reign:reign09@cluster0.69zj6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
       ssl: true
 
     },

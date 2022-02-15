@@ -8,6 +8,7 @@
     "@sailshq/connect-redis": "^3.2.1",
     "@sailshq/lodash": "^3.10.3",
     "@sailshq/socket.io-redis": "^5.2.0",
+    "axios": "^0.21.0",
     "bcrypt": "^5.0.1",
     "cloudinary": "^1.27.1",
     "cron": "^1.8.2",
@@ -18,7 +19,9 @@
     "sails-hook-orm": "^2.1.1",
     "sails-hook-sockets": "^2.0.0",
     "sails-mongo": "^2.0.0",
-    "sails-redis": "^1.0.0"
+    "sails-redis": "^1.0.0",
+    "xrpl": "^2.1.1",
+    "xumm-sdk": "^1.0.3"
   },
   "devDependencies": {
     "eslint": "5.16.0",

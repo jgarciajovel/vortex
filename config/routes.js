@@ -21,6 +21,16 @@ module.exports.routes = {
 
   '/': { view: 'pages/homepage' },
 
+  'GET /campaign': { controller: 'Campaign', action: 'index' },
+
+  'GET /auth': { controller: 'Campaign', action: 'auth' },
+
+  'POST /user': { controller: 'Campaign', action: 'getUser' },
+
+  'POST /webhook': { controller: 'Campaign', action: 'webhook' },
+
+  'GET /socket': { controller: 'Campaign', action: 'socket' },
+
   // 'POST /auth': { controller: 'Auth', action: 'index' },
 
   /***************************************************************************
