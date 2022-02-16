@@ -12,40 +12,6 @@ const Sdk = new XummSdk(sails.config.custom.xumm_api_key, sails.config.custom.xu
 
 module.exports = {
 
-    index: function(req, res) {
-        start();
-
-        async function start() {
-            try {
-                // Define the network client
-                const client = new xrpl.Client("wss://s.altnet.rippletest.net/");
-                await client.connect();
-
-                // ... custom code goes here
-                // Get info from the ledger about the address we just funded
-                const response = await client.request({
-                    "command": "account_info",
-                    "account": "rUbkduh1MHWB7yNUVbVAkwMRpmcNgfBQBh",
-                    "ledger_index": "validated"
-                })
-                console.log(response)
-
-                // Disconnect when done (If you omit this, Node.js won't end the process)
-                client.disconnect();
-
-                return res.status(200).json({
-                    status: 'success',
-                    response
-                });
-            } catch (error) {
-                return res.status(400).json({
-                    status: 'error',
-                    error: error
-                });
-            }
-        }
-    },
-
     auth: function(req, res) {
         start();
 
@@ -198,33 +164,6 @@ return instruction
 
     },
 
-    webhook: function(req, res) {
-        start();
-
-        async function start() {
-            try {
-                let userToken = req.body.userToken;
-
-                let payload_uuidv4 = req.body.payloadResponse.payload_uuidv4;
-
-                const user = await Sdk.payload.get(payload_uuidv4);
-                const address = user.response.account;
-
-                console.log('address', address);
-
-                return res.status(200).json({
-                    status: 'success',
-                    body: req.body
-                });
-            } catch (error) {
-                return res.status(200).json({
-                    status: 'error',
-                    error
-                });
-            }
-        }
-    },
-
     getUser: function(req, res) {
         var payload = req.param('payload');
 
@@ -285,6 +224,22 @@ return instruction
             return res.status(200).json({
                 status: 'success'
             });
+        }
+    },
+
+    webhook: function(req, res) {
+        start();
+
+        async function start() {
+            try {
+                console.log('body', req.body);
+
+                return res.status(200).json({
+                    status: 'success',
+                });
+            } catch (error) {
+                return res.serverError(error);
+            }
         }
     },
 

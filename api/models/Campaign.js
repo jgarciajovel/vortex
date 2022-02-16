@@ -13,25 +13,25 @@ module.exports = {
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
 
-    id_effect_network: {
-      type: 'number'
+    title: {
+      type: 'string'
     },
 
-    owner: {
-      type: 'json',
-      columnType: 'array'
+    description: {
+      type: 'string',
     },
 
-    content: {
-      type: 'json'
+    end_date: {
+      type: 'ref',
+      columnType: 'datetime',
     },
 
-    reward: {
-      type: 'json'
+    image: {
+      type: 'string'
     },
 
-    info: {
-      type: 'json'
+    active: {
+      type: 'boolean'
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
