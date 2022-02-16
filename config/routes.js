@@ -23,7 +23,9 @@ module.exports.routes = {
 
   'GET /auth': { controller: 'Campaign', action: 'auth' },
 
-  'POST /user': { controller: 'Campaign', action: 'getUser' },
+  'GET /account/:payload': { controller: 'Campaign', action: 'account' },
+
+  'GET /user/:account': { controller: 'Campaign', action: 'user' },
 
   'POST /webhook': { controller: 'Campaign', action: 'webhook' },
 

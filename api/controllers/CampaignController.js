@@ -7,7 +7,7 @@
 
 const axios = require('axios').default;
 const xrpl = require("xrpl");
-const {XummSdk} = require('xumm-sdk');
+const { XummSdk } = require('xumm-sdk');
 const Sdk = new XummSdk(sails.config.custom.xumm_api_key, sails.config.custom.xumm_api_secret);
 
 module.exports = {
@@ -164,7 +164,7 @@ return instruction
 
     },
 
-    getUser: function(req, res) {
+    account: function(req, res) {
         var payload = req.param('payload');
 
         if (payload) {
@@ -178,7 +178,6 @@ return instruction
 
         async function start() {
             try {
-                // payload = 'beb82d2c-1bb8-495a-b742-czd4e033426e5';
                 const user = await Sdk.payload.get(payload);
                 
                 if (user) {
@@ -200,7 +199,7 @@ return instruction
 
                     return res.status(200).json({
                         status: 'success',
-                        user: response
+                        address: response.result.account_data.Account
                     });
                 } else {
                     return res.status(401).json({
@@ -208,6 +207,44 @@ return instruction
                         user: 'expired'
                     });
                 }
+            } catch (error) {
+                return res.serverError(error);
+            }
+        }
+    },
+
+    user: function(req, res) {
+        var account = req.param('account');
+
+        if (account) {
+            start();
+        } else {
+            return res.status(401).json({
+                status: 'error',
+                message: 'Required parameters are not present (account) or header'
+            });
+        }
+
+        async function start() {
+            try {
+                // Define the network client
+                const client = new xrpl.Client("wss://s.altnet.rippletest.net/");
+                await client.connect();
+
+                // ... custom code goes here
+                // Get info from the ledger about the address we just funded
+                const response = await client.request({
+                    "command": "account_info",
+                    "account": account,
+                    "ledger_index": "validated"
+                })
+                // Disconnect when done (If you omit this, Node.js won't end the process)
+                client.disconnect();
+
+                return res.status(200).json({
+                    status: 'success',
+                    user: response
+                });
             } catch (error) {
                 return res.serverError(error);
             }
