@@ -23,13 +23,19 @@ module.exports.routes = {
 
   'GET /auth': { controller: 'Campaign', action: 'auth' },
 
+  'POST /webhook': { controller: 'Campaign', action: 'webhook' },
+
   'GET /account/:payload': { controller: 'Campaign', action: 'account' },
 
   'GET /user/:account': { controller: 'Campaign', action: 'user' },
 
-  'POST /webhook': { controller: 'Campaign', action: 'webhook' },
-
   'GET /socket': { controller: 'Campaign', action: 'socket' },
+ 
+  'POST /campaign/create': { controller: 'Campaign', action: 'create' },
+
+  'GET /user/:account/campaign': { controller: 'Campaign', action: 'userCampaigns' },
+
+  'POST /campaign/player': { controller: 'Campaign', action: 'addPlayer' },
 
   /***************************************************************************
   *                                                                          *

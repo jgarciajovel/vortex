@@ -1,5 +1,5 @@
 /**
- * Campaign.js
+ * Player.js
  *
  * @description :: A model definition represents a database table/collection.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
@@ -17,33 +17,12 @@ module.exports = {
       type: 'string'
     },
 
-    title: {
+    name: {
       type: 'string'
     },
 
-    description: {
-      type: 'string',
-    },
-
-    prize: {
-      type: 'string',
-    },
-
-    winners: {
-      type: 'number',
-    },
-
-    end_date: {
-      type: 'ref',
-      columnType: 'datetime',
-    },
-
-    image: {
+    email: {
       type: 'string'
-    },
-
-    active: {
-      type: 'boolean'
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
@@ -55,11 +34,9 @@ module.exports = {
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
 
-    players: {
-      collection: 'player',
-      via: 'campaign'
+    campaign: {
+      model: 'campaign'
     }
-
   },
 
 };

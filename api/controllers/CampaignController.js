@@ -46,7 +46,7 @@ module.exports = {
         }
     },
 
-    create: function(req, res) {
+    create2: function(req, res) {
         let id = req.param('id');
         let title = req.param('title');
         let description = req.param('description');
@@ -67,7 +67,7 @@ module.exports = {
             try {
                 var cloudinary = await sails.helpers.uploadImage.with({
                     file: example_task,
-                    folder: `delos/`,
+                    folder: `vortex/`,
                     id: 1
                 }).tolerate('issues', (error)=>{
                     sails.log.warn(error);
@@ -279,6 +279,151 @@ return instruction
             }
         }
     },
+
+    create: function(req, res) {
+        let account = req.param('account');
+        let title = req.param('title');
+        let description = req.param('description');
+        let prize = req.param('prize');
+        let winners = req.param('winners');
+        let end_date = req.param('end_date');
+        let active = req.param('active');
+        let file = req.file('file');
+
+        if (account, title, description, prize, winners, end_date, file, active) {
+            uploadImage(); //
+        } else {
+            return res.status(500).json({
+                status: 'error',
+                message: 'Required parameters are not present (account, title, description, prize, winners, end_date, file, active)'
+            });
+        }
+
+        async function uploadImage() {
+            try {
+                var cloudinary = await sails.helpers.uploadImage.with({
+                    file: file,
+                    folder: `vortex/`,
+                    id: 1
+                }).tolerate('issues', (error)=>{
+                    sails.log.warn(error);
+                });
+
+                if (cloudinary) {
+
+                    let image = cloudinary.secure_url;
+                    start(image);
+
+                } else {
+                    return res.status(200).json({
+                        status: 'error',
+                        message: `Couldn't upload image`
+                    });
+                }
+            } catch (error) {
+                return res.serverError(error);
+            }
+        }
+
+        async function start(image) {
+            try {
+                let campaign = await Campaign.create({
+                    account: account,
+                    title: title,
+                    description: description,
+                    prize: prize,
+                    winners: winners,
+                    end_date: end_date,
+                    image: image,
+                    active: active,
+                }).fetch();
+
+                return res.status(200).json({
+                    status: 'success',
+                    campaign
+                });
+
+            } catch (error) {
+                return res.serverError(error);
+            }
+        }
+
+    },
+
+    userCampaigns: function(req, res) {
+        let account = req.param('account');
+
+        if (account) {
+            start(); //
+        } else {
+            return res.status(500).json({
+                status: 'error',
+                message: 'Required parameters are not present (account)'
+            });
+        }
+
+        async function start() {
+            try {
+                let campaigns = await Campaign.find({
+                    account: account
+                }).populate('players');
+
+                return res.status(200).json({
+                    status: 'success',
+                    campaigns
+                });
+            } catch (error) {
+                return res.serverError(error);
+            }
+        }
+
+    },
+
+    addPlayer: function(req, res) {
+        let account = req.param('account');
+        let id_campaign = req.param('campaign');
+        let name = req.param('name');
+        let email = req.param('email');
+
+        if (account, id_campaign, name, email) {
+            start(); //
+        } else {
+            return res.status(500).json({
+                status: 'error',
+                message: 'Required parameters are not present (account, campaign, name, email)'
+            });
+        }
+
+        async function start() {
+            try {
+                let campaign = await Campaign.findOne({
+                    id: id_campaign
+                });
+
+                if (campaign && campaign.active === true) {
+                    let player = await Player.create({
+                        account: account,
+                        name: name,
+                        email: email,
+                        campaign: id_campaign,
+                    }).fetch();
+
+                    return res.status(200).json({
+                        status: 'success',
+                        campaign,
+                        player
+                    });
+                } else {
+                    return res.status(401).json({
+                        status: 'error',
+                        message: 'Campaign Inactive'
+                    });
+                }
+            } catch (error) {
+                return res.serverError(error);
+            }
+        }
+    }
 
 };
 
