@@ -21,6 +21,8 @@ module.exports.routes = {
 
   '/': { view: 'pages/homepage' },
 
+  'POST /login': { controller: 'Auth', action: 'index' },
+
   'GET /auth': { controller: 'Campaign', action: 'auth' },
 
   'POST /webhook': { controller: 'Campaign', action: 'webhook' },
@@ -33,7 +35,11 @@ module.exports.routes = {
  
   'POST /campaign/create': { controller: 'Campaign', action: 'create' },
 
+  'POST /user/create': { controller: 'User', action: 'create' },
+
   'GET /user/:account/campaign': { controller: 'Campaign', action: 'userCampaigns' },
+
+  'GET /user/:account/campaign/:id': { controller: 'Campaign', action: 'getCampaign' },
 
   'POST /campaign/player': { controller: 'Campaign', action: 'addPlayer' },
 

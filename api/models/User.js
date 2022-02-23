@@ -31,7 +31,7 @@ module.exports = {
       type: 'string',
     },
 
-    effect_account: {
+    wallet: {
       type: 'json',
     }
 

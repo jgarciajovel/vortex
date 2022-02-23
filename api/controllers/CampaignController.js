@@ -379,6 +379,36 @@ return instruction
 
     },
 
+    getCampaign: function(req, res) {
+        let id = req.param('id');
+        let account = req.param('account');
+
+        if (id, account) {
+            start(); //
+        } else {
+            return res.status(500).json({
+                status: 'error',
+                message: 'Required parameters are not present (id, account)'
+            });
+        }
+
+        async function start() {
+            try {
+                let campaign = await Campaign.findOne({
+                    id: id,
+                    account: account,
+                }).populate('players');
+
+                return res.status(200).json({
+                    status: 'success',
+                    campaign
+                });
+            } catch (error) {
+                return res.serverError(error);
+            }
+        }
+    },
+
     addPlayer: function(req, res) {
         let account = req.param('account');
         let id_campaign = req.param('campaign');

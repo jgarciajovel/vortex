@@ -61,6 +61,7 @@ module.exports = {
                                 name: user.name,
                                 lastname: user.lastname,
                                 email: user.email,
+                                wallet: user.wallet,
                             }),
                         });
                     }
