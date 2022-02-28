@@ -21,7 +21,8 @@
     "sails-mongo": "^2.0.0",
     "sails-redis": "^1.0.0",
     "xrpl": "^2.1.1",
-    "xumm-sdk": "^1.0.3"
+    "xumm-sdk": "^1.0.3",
+    "web3.storage": "^3.1.0"
   },
   "devDependencies": {
     "eslint": "5.16.0",
@@ -44,6 +45,6 @@
   "author": "administrador",
   "license": "",
   "engines": {
-    "node": "^12.22"
+    "node": "^14.18.1"
   }
 }

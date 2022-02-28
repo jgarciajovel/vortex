@@ -31,9 +31,13 @@ module.exports.routes = {
 
   'GET /user/:account': { controller: 'Campaign', action: 'user' },
 
+  'GET /user/:account/nfts': { controller: 'Campaign', action: 'getAccountNfts' },
+
   'GET /socket': { controller: 'Campaign', action: 'socket' },
  
   'POST /campaign/create': { controller: 'Campaign', action: 'create' },
+
+  'POST /campaign/mint': { controller: 'Campaign', action: 'mint' },
 
   'POST /user/create': { controller: 'User', action: 'create' },
 

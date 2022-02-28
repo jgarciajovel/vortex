@@ -27,7 +27,7 @@ module.exports = {
         async function start() {
             try {
                 // Define the network client
-                const client = new xrpl.Client("wss://s.altnet.rippletest.net/");
+                const client = new xrpl.Client(sails.config.custom.xrpl_client);
                 await client.connect();
 
                 let fund_result = await client.fundWallet();
@@ -42,6 +42,7 @@ module.exports = {
                     email: email,
                     password: password,
                     wallet: wallet,
+                    account: wallet.classicAddress
                 }).fetch();
 
                 return res.status(200).json({

@@ -33,6 +33,10 @@ module.exports = {
 
     wallet: {
       type: 'json',
+    },
+
+    account: {
+      type: 'string',
     }
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
