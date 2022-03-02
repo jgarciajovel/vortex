@@ -67,29 +67,29 @@
                  const user = await Sdk.payload.get(payload);
                  
                  if (user) {
-                    //  let account = user.response.account;
+                     let account = user.response.account;
  
-                    //  // Define the network client
-                    //  const client = new xrpl.Client(sails.config.custom.xrpl_client);
-                    //  await client.connect();
+                     // Define the network client
+                     const client = new xrpl.Client(sails.config.custom.xrpl_client);
+                     await client.connect();
      
-                    //  // ... custom code goes here
-                    //  // Get info from the ledger about the address we just funded
-                    //  const response = await client.request({
-                    //      "command": "account_info",
-                    //      "account": account,
-                    //      "ledger_index": "validated"
-                    //  })
-                    //  // Disconnect when done (If you omit this, Node.js won't end the process)
-                    //  client.disconnect();
+                     // ... custom code goes here
+                     // Get info from the ledger about the address we just funded
+                     const response = await client.request({
+                         "command": "account_info",
+                         "account": account,
+                         "ledger_index": "validated"
+                     })
+                     // Disconnect when done (If you omit this, Node.js won't end the process)
+                     client.disconnect();
 
-                     let account = await User.findOne({
-                        account: 'rrhaWbtfnm8qJYh9Hx3MZaWL55o6CqiFy6'
-                     });
+                    //  let account = await User.findOne({
+                    //     id: '6217213596010d6cfd1f6294'
+                    //  });
  
                      return res.status(200).json({
                          status: 'success',
-                         address: account
+                         address: response.result.account_data.Account
                      });
                  } else {
                      return res.status(401).json({
