@@ -284,7 +284,7 @@
          let end_date = req.param('end_date');
          let active = req.param('active');
          let file = req.file('file');
- 
+
          if (account, title, description, prize, winners, end_date, file, active) {
              uploadImage(); //
          } else {

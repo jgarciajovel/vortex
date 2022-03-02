@@ -34,7 +34,7 @@ module.exports = {
     },
 
     end_date: {
-      type: 'string',
+      type: 'ref', columnType: 'datetime'
     },
 
     image: {
