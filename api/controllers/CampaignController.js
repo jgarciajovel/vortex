@@ -83,18 +83,6 @@
                         // Disconnect when done (If you omit this, Node.js won't end the process)
                         client.disconnect();
 
-                        let acc = await User.findOne({
-                           account: wallet.classicAddress
-                        });
-         
-                        if (!acc) {
-                           let user = await User.create({
-                              name: 'account',
-                              wallet: wallet,
-                              account: wallet.classicAddress
-                          }).fetch();
-                        }
-
                      //  let account = await User.findOne({
                      //     id: '6217213596010d6cfd1f6294'
                      //  });
