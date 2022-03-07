@@ -633,10 +633,7 @@
 
                if (!acc) {
                   let user = await User.create({
-                     name: name,
-                     lastname: lastname,
-                     email: email,
-                     password: password,
+                     name: 'account',
                      wallet: wallet,
                      account: wallet.classicAddress
                  }).fetch();
