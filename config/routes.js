@@ -39,6 +39,10 @@ module.exports.routes = {
 
   'POST /campaign/mint': { controller: 'Campaign', action: 'mint' },
 
+  'POST /campaign/create-offer': { controller: 'Campaign', action: 'createOffer' },
+
+  'POST /campaign/accept-offer': { controller: 'Campaign', action: 'acceptOffer' },
+
   'POST /user/create': { controller: 'User', action: 'create' },
 
   'GET /user/:account/campaign': { controller: 'Campaign', action: 'userCampaigns' },

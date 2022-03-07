@@ -30,7 +30,8 @@ module.exports = {
                 const client = new xrpl.Client(sails.config.custom.xrpl_client);
                 await client.connect();
 
-                let fund_result = await client.fundWallet();
+                // let fund_result = await client.fundWallet();
+                let fund_result = await client.fundWallet(null, {faucetHost: 'faucet.devnet.rippletest.net' })
                 let wallet = fund_result.wallet;
 
                 // Disconnect when done (If you omit this, Node.js won't end the process)

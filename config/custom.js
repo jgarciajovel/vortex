@@ -23,7 +23,7 @@ module.exports.custom = {
   xumm_api_secret: '9746eef2-5f20-47d9-a9a8-dfab11188628',
 
   xrpl_client: 'wss://xls20-sandbox.rippletest.net:51233',
-  // xrpl_client: 'wss://testnet.xrpl-labs.com',
+  // xrpl_client: 'wss://s.devnet.rippletest.net:51233',
 
   xumm_api: 'https://xumm.app/api/v1/platform',
 };
