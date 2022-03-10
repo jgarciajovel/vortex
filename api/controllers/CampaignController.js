@@ -813,7 +813,7 @@
                   campaign: id_campaign
                });
 
-               if (!findPlayer) {
+               if (!campaign) {
                   let uc = await Campaign.update({
                      id: id_campaign
                   }, {
@@ -826,7 +826,7 @@
                } else {
                   return res.status(200).json({
                      status: 'error',
-                     message: 'Player already part of the campaign'
+                     message: 'Could not find campaign'
                   });
                }
             } catch (error) {
@@ -916,6 +916,46 @@
                   campaigns
                });
 
+            } catch (error) {
+               return res.serverError(error);
+            }
+         }
+
+      },
+
+      nftTransfered: function(req, res) {
+         let account = req.param('account');
+         let id_campaign = req.param('campaign');
+
+         if (account, id_campaign) {
+            start(); //
+         } else {
+            return res.status(500).json({
+               status: 'error',
+               message: 'Required parameters are not present (account, campaign)'
+            });
+         }
+
+         async function start() {
+            try {
+               let campaign = await Campaign.update({
+                  id: id_campaign,
+                  winner: account,
+               }, {
+                  transfered: true
+               }).fetch();
+
+               if (campaign.length > 0) {
+                  return res.status(200).json({
+                     status: 'success',
+                     campaign: campaign[0]
+                  });
+               } else {
+                  return res.status(500).json({
+                     status: 'error',
+                     message: `Couldn't find any Campaign with id ${id_campaign} or winner ${account}`
+                  });
+               }
             } catch (error) {
                return res.serverError(error);
             }

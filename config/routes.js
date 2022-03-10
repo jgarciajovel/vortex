@@ -55,6 +55,8 @@ module.exports.routes = {
 
   'GET /player/:account': { controller: 'Campaign', action: 'getPlayerCampaigns' },
 
+  'POST /player/nft-transfered': { controller: 'Campaign', action: 'nftTransfered' },
+
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
