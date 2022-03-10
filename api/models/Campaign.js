@@ -45,6 +45,22 @@ module.exports = {
       type: 'boolean'
     },
 
+    nft: {
+      type: 'json'
+    },
+
+    winner: {
+      type: 'string'
+    },
+
+    transfered: {
+      type: 'boolean'
+    },
+
+    nftSellOffers: {
+      type: 'json'
+    },
+
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝

@@ -234,7 +234,7 @@
             let id_campaign = req.param('campaign');
             let name = req.param('name');
             let email = req.param('email');
-   
+
             if (account, id_campaign, name, email) {
                start(); //
             } else {
@@ -251,18 +251,32 @@
                   });
    
                   if (campaign && campaign.active === true) {
-                        let player = await Player.create({
+                        let findPlayer = await Player.findOne({
                            account: account,
-                           name: name,
-                           email: email,
-                           campaign: id_campaign,
-                        }).fetch();
-   
-                        return res.status(200).json({
-                           status: 'success',
-                           campaign,
-                           player
+                           campaign: id_campaign
                         });
+
+                        if (!findPlayer) {
+                           let player = await Player.create({
+                              account: account,
+                              name: name,
+                              email: email,
+                              campaign: id_campaign,
+                           }).fetch();
+      
+                           return res.status(200).json({
+                              status: 'success',
+                              campaign,
+                              player
+                           });
+                        } else {
+                           return res.status(200).json({
+                              status: 'error',
+                              message: 'Player already part of the campaign'
+                           });
+                        }
+
+                        
                   } else {
                         return res.status(401).json({
                            status: 'error',
@@ -332,12 +346,119 @@
                         image: image,
                         active: active,
                   }).fetch();
+
+                  console.log(`:: Campaign created`);
+
+                  ipfs(campaign);
    
-                  return res.status(200).json({
-                        status: 'success',
-                        campaign
+                  // return res.status(200).json({
+                  //       status: 'success',
+                  //       campaign
+                  // });
+   
+               } catch (error) {
+                  return res.serverError(error);
+               }
+            }
+
+            async function ipfs(campaign) {
+               const token = sails.config.custom.web3_storage;
+
+               if (!token) {
+                  return console.error('A token is needed. You can create one on https://web3.storage');
+               }
+
+               console.log(`:: Storing IPFS`);
+
+               const storage = new Web3Storage({ token });
+
+               const response = await axios.get(campaign.image,  { responseType: 'arraybuffer' })
+               const buffer = Buffer.from(response.data, "base64");
+
+               let filename = campaign.image;
+               filename = filename.split('/');
+               filename = filename[filename.length - 1];
+
+               let img = new File([buffer], filename);
+
+               console.log(`Uploading files`);
+               let cid = await storage.put([img]);
+               console.log('Content added with CID:', cid);
+
+               mint(cid, campaign);
+            }
+
+            async function mint(cid, campaign) {
+               try {
+                  
+                  console.log(`:: Minting...`);
+
+                  let user = await User.findOne({
+                     account: account
                   });
-   
+
+                  //  Define the network client
+                  const wallet = xrpl.Wallet.fromSeed(user.wallet.seed);
+                  const client = new xrpl.Client(sails.config.custom.xrpl_client);
+                  await client.connect();
+
+                  const transactionBlob = {
+                     TransactionType: "NFTokenMint",
+                     Account: wallet.classicAddress,
+                     URI: xrpl.convertStringToHex(`ipfs://${cid}`),
+                     Flags: parseInt(8),
+                     TokenTaxon: 0
+                  }
+
+                  const tx = await client.submitAndWait(transactionBlob, {
+                     wallet: wallet
+                  });
+
+                  const nfts = await client.request({
+                     method: "account_nfts",
+                     account: wallet.classicAddress  
+                  });
+
+                  // console.log(nfts);
+
+                  console.log("Transaction result:", tx.result.meta.TransactionResult);
+                  console.log("Balance changes:",
+                  JSON.stringify(tx.result.meta));
+
+                  let nft;
+
+                  if (tx.result.meta.AffectedNodes[1].CreatedNode) {
+                     console.log(`:: First Token for the account.`);
+                     let { CreatedNode } = tx.result.meta.AffectedNodes[1];
+                     let NonFungibleTokens = CreatedNode.NewFields.NonFungibleTokens;
+                     nft = NonFungibleTokens[NonFungibleTokens.length - 1].NonFungibleToken;
+                  }
+
+                  if (tx.result.meta.AffectedNodes[1].ModifiedNode) {
+                     console.log(`:: New Token for the account.`);
+                     let { ModifiedNode } = tx.result.meta.AffectedNodes[1];
+                     let NonFungibleTokens = ModifiedNode.FinalFields.NonFungibleTokens;
+                     nft = NonFungibleTokens[NonFungibleTokens.length - 1].NonFungibleToken;
+                  }
+
+                  // Disconnect when done (If you omit this, Node.js won't end the process)
+                  client.disconnect();
+
+                  console.log(`:: Update Campaign with NFT Data`);
+
+                  let uc = await Campaign.update({
+                     id: campaign.id
+                  }, {
+                     nft: nft
+                  }).fetch();
+
+                  console.log(uc);
+
+                  return res.status(200).json({
+                     status: 'success',
+                     campaign: uc[0],
+                  });
+
                } catch (error) {
                   return res.serverError(error);
                }
@@ -365,10 +486,10 @@
                         account: account,
                   }).populate('players');
                   
-                  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDMwN2UxOTUxOWE1OWMxZjc2RDQxMzZDODU1NjhDOUE3OTg2ODY5OTQiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NDU2NTU1ODk3ODUsIm5hbWUiOiJ2b3J0ZXgifQ.y1OUB1FtOY888HJL1pTrBzb0bORnTyrYZFmku35vQzo';
+                  const token = sails.config.custom.web3_storage;
    
                   if (!token) {
-                        return console.error('A token is needed. You can create one on https://web3.storage');
+                     return console.error('A token is needed. You can create one on https://web3.storage');
                   }
    
                   const storage = new Web3Storage({ token });
@@ -666,6 +787,110 @@
             });
          }
 
+      },
+
+      winner: function(req, res) {
+         let account = req.param('account');
+         let id_campaign = req.param('campaign');
+
+         if (account, id_campaign) {
+            start(); //
+         } else {
+            return res.status(500).json({
+               status: 'error',
+               message: 'Required parameters are not present (account, campaign)'
+            });
+         }
+
+         async function start() {
+            try {
+               let campaign = await Campaign.findOne({
+                     id: id_campaign
+               });
+
+               let findPlayer = await Player.findOne({
+                  account: account,
+                  campaign: id_campaign
+               });
+
+               if (!findPlayer) {
+                  let uc = await Campaign.update({
+                     id: id_campaign
+                  }, {
+                     winner: account
+                  }).fetch();
+
+                  console.log(`Campaign Updated...`);
+
+                  createSellOffer(uc[0]);
+               } else {
+                  return res.status(200).json({
+                     status: 'error',
+                     message: 'Player already part of the campaign'
+                  });
+               }
+            } catch (error) {
+               return res.serverError(error);
+            }
+         }
+
+         async function createSellOffer(campaign) {
+            try {
+               let user = await User.findOne({
+                  account: campaign.account
+               });
+
+               //  Define the network client
+               const wallet = xrpl.Wallet.fromSeed(user.wallet.seed);
+               const client = new xrpl.Client(sails.config.custom.xrpl_client);
+               await client.connect();
+               console.log("Connected to Sandbox");
+
+                // Prepare transaction -------------------------------------------------------
+               const transactionBlob = {
+                  TransactionType: 'NFTokenCreateOffer',
+                  Account: wallet.classicAddress,
+                  TokenID: campaign.nft.TokenID,
+                  Amount: '0',
+                  Flags: 1
+               }
+
+               console.log(transactionBlob);
+               console.log(wallet);
+
+               console.log(`Creating Sell Offer...`);
+
+               const tx = await client.submitAndWait(transactionBlob, {wallet});
+
+               let nftSellOffers;
+
+               nftSellOffers = await client.request({
+                  method: 'nft_sell_offers',
+                  tokenid: campaign.nft.TokenID
+               });
+
+               console.log(nftSellOffers);
+               console.log("Transaction result:", JSON.stringify(tx.result.meta.TransactionResult, null, 2));
+
+               let uc = await Campaign.update({
+                  id: campaign.id
+               }, {
+                  nftSellOffers: nftSellOffers,
+                  active: false
+               }).fetch();
+
+               client.disconnect();
+
+               //
+
+               return res.status(200).json({
+                  status: 'success',
+                  response: tx.result.meta.TransactionResult
+               });
+            } catch (error) {
+               return res.serverError(error);
+            }
+         }
       },
  
  };

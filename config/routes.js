@@ -51,6 +51,8 @@ module.exports.routes = {
 
   'POST /campaign/player': { controller: 'Campaign', action: 'addPlayer' },
 
+  'POST /campaign/winner': { controller: 'Campaign', action: 'winner' },
+
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *

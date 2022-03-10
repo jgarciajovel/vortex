@@ -56,6 +56,7 @@ module.exports = {
                     } else {
                         return res.status(200).json({
                             status: 'success',
+                            account: user.wallet.classicAddress,
                             token: jwToken.issue({
                                 id: user.id,
                                 name: user.name,
