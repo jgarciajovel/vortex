@@ -813,7 +813,7 @@
                   campaign: id_campaign
                });
 
-               if (!campaign) {
+               if (campaign) {
                   let uc = await Campaign.update({
                      id: id_campaign
                   }, {
