@@ -53,6 +53,8 @@ module.exports.routes = {
 
   'POST /campaign/winner': { controller: 'Campaign', action: 'winner' },
 
+  'GET /player/:account': { controller: 'Campaign', action: 'getPlayerCampaigns' },
+
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *

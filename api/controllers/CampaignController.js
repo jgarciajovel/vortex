@@ -805,7 +805,7 @@
          async function start() {
             try {
                let campaign = await Campaign.findOne({
-                     id: id_campaign
+                     id: id_campaign,
                });
 
                let findPlayer = await Player.findOne({
@@ -891,6 +891,36 @@
                return res.serverError(error);
             }
          }
+      },
+
+      getPlayerCampaigns: function(req, res) {
+         let account = req.param('account');
+
+         if (account) {
+            start(); //
+         } else {
+            return res.status(500).json({
+               status: 'error',
+               message: 'Required parameters are not present (account)'
+            });
+         }
+
+         async function start() {
+            try {
+               let campaigns = await Campaign.find({
+                  winner: account
+               });
+
+               return res.status(200).json({
+                  status: 'success',
+                  campaigns
+               });
+
+            } catch (error) {
+               return res.serverError(error);
+            }
+         }
+
       },
  
  };
