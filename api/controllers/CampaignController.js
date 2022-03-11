@@ -419,7 +419,7 @@
                      account: wallet.classicAddress  
                   });
 
-                  // console.log(nfts);
+                  console.log(nfts);
 
                   console.log("Transaction result:", tx.result.meta.TransactionResult);
                   console.log("Balance changes:",
@@ -446,10 +446,16 @@
 
                   console.log(`:: Update Campaign with NFT Data`);
 
+                  let nft_detail = nfts.result.account_nfts;
+                  nft_detail = nft_detail[nft_detail.length - 1];
+
+                  nft_detail.URI = xrpl.convertHexToString(nft_detail.URI);
+
                   let uc = await Campaign.update({
                      id: campaign.id
                   }, {
-                     nft: nft
+                     nft: nft,
+                     nft_detail: nft_detail
                   }).fetch();
 
                   console.log(uc);
