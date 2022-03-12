@@ -1,6 +1,6 @@
 # Vortex 🚀
 ## Description
-**Vortex** it’s the **first** platform that allows you to create custom contests, promotions and give rewards in the form of a functional NFT minted on the XRP Ledger and of course using Web3.Storage (IPFS).
+**Vortex** is the **first** platform that allows you to create custom contests, promotions and give rewards in the form of a functional NFT minted on the XRP Ledger and of course using Web3.Storage (IPFS).
 ### Demo
 + [API on Heroku](https://appvortex.herokuapp.com/)
 + [Dashboard on Heroku](https://vortex-app.herokuapp.com/)
@@ -10,7 +10,7 @@
 + [Vortex - Twitter](https://twitter.com/appvortex)
 + [Email - jc.garciajovel@gmail.com](mailto:jc.garciajovel@gmail.com)
 ## What it does
-**Vortex** it’s the **first** platform that allows you to create custom contests, promotions and giveaways in the form of a functional NFT; minted on the XRP Ledger and of course using Web3.Storage (IPFS).
+**Vortex** is the **first** platform that allows you to create custom contests, promotions and giveaways in the form of a functional NFT; minted on the XRP Ledger and of course using Web3.Storage (IPFS).
 
 A company can create a campaign within **Vortex** and fill it with useful information, such as a campaign name, description, prizes, a collectible image and much more.
 
